@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const { ApolloServer } = require('apollo-server-express');
 const { importSchema } = require('graphql-import');
 
@@ -9,6 +10,7 @@ const server = new ApolloServer({
     resolvers
 });
 
+console.log(process.env.DB_HOST);
 
 const app = express();
 server.applyMiddleware({ app });
