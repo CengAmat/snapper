@@ -7,5 +7,6 @@ const Mutation = require('./mutation/index');
 
 
 module.exports = {
-    Query
+    Query,
+    Mutation
 }
