@@ -1,8 +1,8 @@
 const Query = {
     user: (parent, args) => {
         return {
-            name: 'Ahmet',
-            surname: 'Zurnaci'
+            username: 'Ahmet',
+            createdAt: '13/06/2020'
         }
     }
 }
