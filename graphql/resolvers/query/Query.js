@@ -1,9 +1,6 @@
 const Query = {
-    user: (parent, args) => {
-        return {
-            username: 'Ahmet',
-            createdAt: '13/06/2020'
-        }
+    user: async (parent, args, { User }) => {
+        return await User.findById(args.id);
     }
 }
 
