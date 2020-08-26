@@ -20,6 +20,12 @@ class Join extends Component {
     })
   };
 
+  formValidate = () => {
+    const { username, password, passwordConfirm } = this.state;
+    const isInvalid = !username || !password || !passwordConfirm || password !== passwordConfirm;
+    return isInvalid;
+  };
+
   onSubmit = ( e, createUser )=> {
     e.preventDefault();
     createUser().then(data => console.log(data))
@@ -45,7 +51,7 @@ class Join extends Component {
               <input name="passwordConfirm" onChange={this.onChange} type="password" placeholder="confirm password" />
             </label>
             <label>
-              <button>Join</button>
+              <button disabled={ loading || this.formValidate() }>Join</button>
             </label>
             { loading && <div>loading...</div>}
             { error && <Error error={error}/>}
