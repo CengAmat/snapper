@@ -25,14 +25,20 @@ class Login extends Component {
 
   formValidate = () => {
     const { username, password } = this.state;
-    return (!username || !password);
+    return !username || !password;
+  };
+
+  resetState = () => {
+    this.setState({
+      ...initialState,
+    });
   };
 
   onSubmit = (e, signinUser) => {
     e.preventDefault();
     signinUser().then((data) => {
       console.log(data);
-      // this.resetState();
+      this.resetState();
     });
   };
 
@@ -53,6 +59,7 @@ class Login extends Component {
                   onChange={this.onChange}
                   name="username"
                   type="text"
+                  value={username}
                   placeholder="username"
                 />
               </label>
@@ -61,6 +68,7 @@ class Login extends Component {
                   onChange={this.onChange}
                   name="password"
                   type="password"
+                  value={password}
                   placeholder="password"
                 />
               </label>
