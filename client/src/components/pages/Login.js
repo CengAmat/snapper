@@ -4,6 +4,8 @@ import { Mutation } from "react-apollo";
 
 import { SIGNIN_USER } from "./../../queries";
 
+import Error from "./../pages/Error";
+
 const initialState = {
   username: "",
   password: "",
@@ -60,6 +62,8 @@ class Login extends Component {
               <label>
                 <button>Login</button>
               </label>
+              {loading && <div>loading...</div>}
+              {error && <Error error={error} />}
             </form>
           )}
         </Mutation>
