@@ -1,77 +1,98 @@
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
 
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
+import { CREATE_USER } from "./../../queries";
 
-import { CREATE_USER } from './../../queries';
-
-import Error from './../pages/Error';
+import Error from "./../pages/Error";
 
 const initialState = {
-  username: '',
-  password: '',
-  passwordConfirm: ''
+  username: "",
+  password: "",
+  passwordConfirm: "",
 };
 
 class Join extends Component {
   state = {
-    ...initialState
+    ...initialState,
   };
 
-  onChange = e => {
-    const { name, value} = e.target;
+  onChange = (e) => {
+    const { name, value } = e.target;
     this.setState({
-      [name]: value 
-    })
+      [name]: value,
+    });
   };
 
   formValidate = () => {
     const { username, password, passwordConfirm } = this.state;
-    const isInvalid = !username || !password || !passwordConfirm || password !== passwordConfirm;
+    const isInvalid =
+      !username ||
+      !password ||
+      !passwordConfirm ||
+      password !== passwordConfirm;
     return isInvalid;
   };
 
   resetState = () => {
     this.setState({
-      ...initialState
-    })
+      ...initialState,
+    });
   };
 
-  onSubmit = ( e, createUser )=> {
+  onSubmit = (e, createUser) => {
     e.preventDefault();
-    createUser().then(data => 
-      {
-        console.log(data);
-        this.resetState();
-      })
-  }
+    createUser().then((data) => {
+      console.log(data);
+      this.resetState();
+    });
+  };
 
   render() {
     const { username, password, passwordConfirm } = this.state;
     return (
       <div>
-        <Mutation mutation={CREATE_USER} variables={{ username, password }}> 
-          { (createUser, { loading, error }) => (
-            <form onSubmit={ e => {
-              this.onSubmit(e, createUser)
-            }} 
-            className="user-form">
-            <label>
-              <input name="username" onChange={this.onChange} type="text" value={username} placeholder="username" />
-            </label>
-            <label>
-              <input name="password" onChange={this.onChange} type="password" value={password} placeholder="password" />
-            </label>
-            <label>
-              <input name="passwordConfirm" onChange={this.onChange} type="password" value={passwordConfirm} placeholder="confirm password" />
-            </label>
-            <label>
-              <button disabled={ loading || this.formValidate() }>Join</button>
-            </label>
-            { loading && <div>loading...</div>}
-            { error && <Error error={error}/>}
-          </form>
-          ) }
-          
+        <Mutation mutation={CREATE_USER} variables={{ username, password }}>
+          {(createUser, { loading, error }) => (
+            <form
+              onSubmit={(e) => {
+                this.onSubmit(e, createUser);
+              }}
+              className="user-form"
+            >
+              <label>
+                <input
+                  name="username"
+                  onChange={this.onChange}
+                  type="text"
+                  value={username}
+                  placeholder="username"
+                />
+              </label>
+              <label>
+                <input
+                  name="password"
+                  onChange={this.onChange}
+                  type="password"
+                  value={password}
+                  placeholder="password"
+                />
+              </label>
+              <label>
+                <input
+                  name="passwordConfirm"
+                  onChange={this.onChange}
+                  type="password"
+                  value={passwordConfirm}
+                  placeholder="confirm password"
+                />
+              </label>
+              <label>
+                <button disabled={loading || this.formValidate()}>Join</button>
+              </label>
+              {loading && <div>loading...</div>}
+              {error && <Error error={error} />}
+            </form>
+          )}
         </Mutation>
       </div>
     );
