@@ -23,6 +23,11 @@ class Login extends Component {
     });
   };
 
+  formValidate = () => {
+    const { username, password } = this.state;
+    return (!username || !password);
+  };
+
   onSubmit = (e, signinUser) => {
     e.preventDefault();
     signinUser().then((data) => {
@@ -60,7 +65,7 @@ class Login extends Component {
                 />
               </label>
               <label>
-                <button>Login</button>
+                <button disabled={loading || this.formValidate()}>Login</button>
               </label>
               {loading && <div>loading...</div>}
               {error && <Error error={error} />}
