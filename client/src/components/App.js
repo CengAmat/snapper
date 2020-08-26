@@ -1,4 +1,4 @@
-import React, { Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -31,7 +31,7 @@ class App extends Component {
   render() {
     return (
       <div id="app">
-        <div class="container">
+        <div className="container">
           <Root />
         </div>
       </div>
