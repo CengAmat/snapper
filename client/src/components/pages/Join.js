@@ -4,6 +4,8 @@ import { Mutation } from 'react-apollo';
 
 import { CREATE_USER } from './../../queries';
 
+import Error from './../pages/Error';
+
 class Join extends Component {
   state = {
     username: '',
@@ -45,6 +47,8 @@ class Join extends Component {
             <label>
               <button>Join</button>
             </label>
+            { loading && <div>loading...</div>}
+            { error && <Error error={error}/>}
           </form>
           ) }
           
