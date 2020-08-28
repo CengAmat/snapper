@@ -6,6 +6,8 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import sessionWrapperHOC from "./sessionWrapperHOC";
+
 import Header from "./Header";
 
 // pages
@@ -27,12 +29,14 @@ const Root = () => (
   </Router>
 );
 
+const RootWithSessionWrapper = sessionWrapperHOC(Root);
+
 class App extends Component {
   render() {
     return (
       <div id="app">
         <div className="container">
-          <Root />
+          <RootWithSessionWrapper />
         </div>
       </div>
     );
