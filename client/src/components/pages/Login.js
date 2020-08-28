@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';
 
 import { Mutation } from "react-apollo";
 
@@ -40,6 +41,7 @@ class Login extends Component {
       console.log(data);
       localStorage.setItem("token", data.signInUser.token);
       this.resetState();
+      this.props.history.push('/');
     });
   };
 
@@ -86,4 +88,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

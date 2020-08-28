@@ -5,7 +5,7 @@ class Home extends Component {
     return (
       <div>
         <div className="description">
-          <p classNameName="sub_header__desc">
+          <p className="sub_header__desc">
             simple snap app with <span>react</span>.
           </p>
         </div>

@@ -7,6 +7,9 @@ const Query = {
         .find({}).sort({'createdAt': 'desc'});
     },
     activeUser: async (parent, args, { activeUser, User }) => {
+        if (!activeUser) {
+            return null;
+        }
         return await User.findOne({ username: activeUser.username })
     },
     snap: async (parent, args, { Snap }) => {
