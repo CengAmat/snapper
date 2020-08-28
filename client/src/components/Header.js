@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-
 import { NavLink } from "react-router-dom";
+import Logout from './Logout';
 
 const Header = ({ session }) => {
   console.log("header", session);
@@ -27,6 +27,7 @@ const Header = ({ session }) => {
 const LinksWithLogin = ({ session }) => (
   <Fragment>
     <NavLink to="/profile">@{session.activeUser.username}</NavLink>
+    <Logout />
   </Fragment>
 );
 
