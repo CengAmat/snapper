@@ -1,31 +1,38 @@
 import React, { Component } from "react";
 
-import { Query } from "react-apollo";
-import { GET_SNAPS } from "../../queries";
+import { Query, Mutation } from "react-apollo";
+import { GET_SNAPS, ADD_SNAP } from "../../queries";
 import TimeAgo from "react-timeago";
 
 class Home extends Component {
-
-  state = { 
-    text: '',
-    user_id: ''
+  state = {
+    text: "",
+    user_id: "",
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   componentDidMount() {
     const { session } = this.props;
-    
+
     if (session && session.activeUser) {
       this.setState({
-        user_id: this.props.session.activeUser.id
-      })
+        user_id: this.props.session.activeUser.id,
+      });
     }
   }
+
+  onSubmit = (e, addSnap) => {
+    e.preventDefault();
+    addSnap().then(async ({ data }) => {
+      console.log(data);
+    })
+  }
+
   render() {
     const { session } = this.props;
     return (
@@ -37,16 +44,27 @@ class Home extends Component {
         </div>
 
         <div>
-          <form>
-            <input
-              className="add-snap__input"
-              type="text"
-              name="text"
-              onChange={this.onChange}
-              disabled={!(session && session.activeUser)}
-              placeholder={ session && session.activeUser ? 'add snap' : 'please login for add a new snap' }
-            />
-          </form>
+          <Mutation mutation={ADD_SNAP} variables={{ ...this.state }}>
+            {
+              (addSnap, { loading, error }) => (
+              <form onSubmit={e => {
+                this.onSubmit(e, addSnap);
+              }}>
+                <input
+                  className="add-snap__input"
+                  type="text"
+                  name="text"
+                  onChange={this.onChange}
+                  disabled={!(session && session.activeUser)}
+                  placeholder={
+                    session && session.activeUser
+                      ? "add snap"
+                      : "please login for add a new snap"
+                  }
+                />
+              </form>
+            )}
+          </Mutation>
         </div>
         <div>
           <Query query={GET_SNAPS}>
@@ -75,7 +93,7 @@ class Home extends Component {
                       </li>
                     ))}
                   </ul>
-                    <div className="counter">{ data.snaps.length } snap(s)</div>
+                  <div className="counter">{data.snaps.length} snap(s)</div>
                 </div>
               );
             }}
