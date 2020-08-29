@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import { Query } from "react-apollo";
+import { GET_SNAPS } from "../../queries";
+
 class Home extends Component {
   render() {
     return (
@@ -12,33 +15,35 @@ class Home extends Component {
 
         <div>
           <form>
-            <input className="add-snap__input" type="text" placeholder="add snap" />
+            <input
+              className="add-snap__input"
+              type="text"
+              placeholder="add snap"
+            />
           </form>
         </div>
         <div>
-          <ul className="snaps">
-            <li>
-              <div className="title">
-                Happiness can be found even in the darkest of times, if one only
-                remembers to turn on the light.
-              </div>
-              <div className="date">
-                <span>now</span>
-              </div>
-            </li>
-            <li>
-              <div className="title">If you want to know what a man's like, take a good look at how he treats his inferiors, not his equals.</div>
-              <div className="date">
-                <span>5 minutes ago</span>
-              </div>
-            </li>
-            <li>
-              <div className="title">Let us step into the night and pursue that flighty temptress, adventure.</div>
-              <div className="date">
-                <span>7 minutes ago</span>
-              </div>
-            </li>
-          </ul>
+          <Query query={GET_SNAPS}>
+            {({ data, loading, error }) => {
+              if (loading) return <div>Loading snaps...</div>;
+              if (error) return <div>Error.</div>;
+
+              console.log(data);
+              return (
+                <ul className="snaps">
+                  {data.snaps.map((snap) => (
+                    <li key={snap.id}>
+                      <div className="title">{snap.text}</div>
+                      <div className="date">
+                        <div className="username">@{snap.user.username}</div>
+                        <span>now</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              );
+            }}
+          </Query>
         </div>
         <div className="counter">3 snap(s)</div>
       </div>

@@ -18,14 +18,29 @@ export const SIGNIN_USER = gql`
   }
 `;
 
-export const GET_ACTIVE_USER  =gql`
-  query{
-    activeUser{
+export const GET_ACTIVE_USER = gql`
+  query {
+    activeUser {
       username
       createdAt
-      snaps{
+      snaps {
         text
         createdAt
+      }
+    }
+  }
+`;
+
+// Homepage
+export const GET_SNAPS = gql`
+  query {
+    snaps {
+      id
+      text
+      createdAt
+      user {
+        id
+        username
       }
     }
   }
