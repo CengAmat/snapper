@@ -36,8 +36,10 @@ class Home extends Component {
     e.preventDefault();
 
     if (this.formValidate()) {
-      addSnap().then(async ({ data }) => {
-        console.log(data);
+      addSnap().then(({ data }) => {
+        this.setState({
+          text: ''
+        })
       });
     }
   };
@@ -53,7 +55,10 @@ class Home extends Component {
         </div>
 
         <div>
-          <Mutation mutation={ADD_SNAP} variables={{ ...this.state }}>
+          <Mutation mutation={ADD_SNAP} 
+          variables={{ ...this.state }}
+          refetchQueries={[{ query: GET_SNAPS }]}
+          >
             {(addSnap, { loading, error }) => (
               <form
                 onSubmit={(e) => {
@@ -64,6 +69,7 @@ class Home extends Component {
                   className="add-snap__input"
                   type="text"
                   name="text"
+                  value={this.state.text}
                   onChange={this.onChange}
                   disabled={!(session && session.activeUser) || loading}
                   placeholder={
