@@ -16,6 +16,12 @@ class Home extends Component {
     });
   };
 
+  formValidate = () => {
+    const { text } = this.state;
+
+    return text;
+  };
+
   componentDidMount() {
     const { session } = this.props;
 
@@ -28,10 +34,13 @@ class Home extends Component {
 
   onSubmit = (e, addSnap) => {
     e.preventDefault();
-    addSnap().then(async ({ data }) => {
-      console.log(data);
-    })
-  }
+
+    if (this.formValidate()) {
+      addSnap().then(async ({ data }) => {
+        console.log(data);
+      });
+    }
+  };
 
   render() {
     const { session } = this.props;
@@ -45,11 +54,12 @@ class Home extends Component {
 
         <div>
           <Mutation mutation={ADD_SNAP} variables={{ ...this.state }}>
-            {
-              (addSnap, { loading, error }) => (
-              <form onSubmit={e => {
-                this.onSubmit(e, addSnap);
-              }}>
+            {(addSnap, { loading, error }) => (
+              <form
+                onSubmit={(e) => {
+                  this.onSubmit(e, addSnap);
+                }}
+              >
                 <input
                   className="add-snap__input"
                   type="text"
