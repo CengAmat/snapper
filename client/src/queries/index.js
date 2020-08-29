@@ -21,6 +21,7 @@ export const SIGNIN_USER = gql`
 export const GET_ACTIVE_USER = gql`
   query {
     activeUser {
+      id
       username
       createdAt
       snaps {

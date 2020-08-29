@@ -5,6 +5,27 @@ import { GET_SNAPS } from "../../queries";
 import TimeAgo from "react-timeago";
 
 class Home extends Component {
+
+  state = { 
+    text: '',
+    user_id: ''
+  };
+
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  componentDidMount() {
+    const { session } = this.props;
+    
+    if (session && session.activeUser) {
+      this.setState({
+        user_id: this.props.session.activeUser.id
+      })
+    }
+  }
   render() {
     const { session } = this.props;
     return (
@@ -20,6 +41,8 @@ class Home extends Component {
             <input
               className="add-snap__input"
               type="text"
+              name="text"
+              onChange={this.onChange}
               disabled={!(session && session.activeUser)}
               placeholder={ session && session.activeUser ? 'add snap' : 'please login for add a new snap' }
             />
