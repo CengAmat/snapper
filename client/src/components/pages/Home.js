@@ -36,11 +36,11 @@ class Home extends Component {
     e.preventDefault();
 
     if (this.formValidate()) {
-      addSnap().then(({ data }) => {
-        this.setState({
-          text: "",
-        });
+      this.setState({
+        text: "",
       });
+
+      addSnap().then(({ data }) => {});
     }
   };
 
@@ -60,6 +60,21 @@ class Home extends Component {
 
   render() {
     const { session } = this.props;
+
+    const optimisticResponse = {
+      __typename: "Mutation",
+      createSnap: {
+        __typename: "Snap",
+        id: Math.round(Math.random() * -200000),
+        text: this.state.text,
+        createdAt: new Date(),
+        user: {
+          __typename: "User",
+          ...session.activeUser,
+        },
+      },
+    };
+
     return (
       <div>
         <div className="description">
@@ -74,19 +89,7 @@ class Home extends Component {
             variables={{ ...this.state }}
             // refetchQueries={[{ query: GET_SNAPS }]}
             update={this.updateCache}
-            optimisticResponse={{
-              __typename: "Mutation",
-              createSnap: {
-                __typename: "Snap",
-                id: Math.round(Math.random() * -200000),
-                text: this.state.text,
-                createdAt: new Date(),
-                user: {
-                  __typename: "User",
-                  ...session.activeUser,
-                },
-              },
-            }}
+            optimisticResponse={optimisticResponse}
           >
             {(addSnap, { loading, error }) => (
               <form
@@ -100,7 +103,7 @@ class Home extends Component {
                   name="text"
                   value={this.state.text}
                   onChange={this.onChange}
-                  disabled={!(session && session.activeUser) || loading}
+                  disabled={!(session && session.activeUser)}
                   placeholder={
                     session && session.activeUser
                       ? "add snap"
@@ -123,7 +126,10 @@ class Home extends Component {
                 <div>
                   <ul className="snaps">
                     {data.snaps.map((snap) => (
-                      <li key={snap.id} className={snap.id < 0 ? 'optimistic' : ''}>
+                      <li
+                        key={snap.id}
+                        className={snap.id < 0 ? "optimistic" : ""}
+                      >
                         <div className="title">
                           <span className="username">
                             @{snap.user.username}{" "}
