@@ -38,10 +38,24 @@ class Home extends Component {
     if (this.formValidate()) {
       addSnap().then(({ data }) => {
         this.setState({
-          text: ''
-        })
+          text: "",
+        });
       });
     }
+  };
+
+  updateCache = (cache, { data: { createSnap }}) => {
+    const { snaps } = cache.readQuery({
+      query: GET_SNAPS,
+    });
+
+    cache.writeQuery({
+      query: GET_SNAPS,
+      data: {
+        snaps: [createSnap, ...snaps]
+      }
+    })
+    console.log(snaps);
   };
 
   render() {
@@ -55,9 +69,11 @@ class Home extends Component {
         </div>
 
         <div>
-          <Mutation mutation={ADD_SNAP} 
-          variables={{ ...this.state }}
-          refetchQueries={[{ query: GET_SNAPS }]}
+          <Mutation
+            mutation={ADD_SNAP}
+            variables={{ ...this.state }}
+            // refetchQueries={[{ query: GET_SNAPS }]}
+            update={ this.updateCache }
           >
             {(addSnap, { loading, error }) => (
               <form
