@@ -44,7 +44,7 @@ class Home extends Component {
     }
   };
 
-  updateCache = (cache, { data: { createSnap }}) => {
+  updateCache = (cache, { data: { createSnap } }) => {
     const { snaps } = cache.readQuery({
       query: GET_SNAPS,
     });
@@ -52,9 +52,9 @@ class Home extends Component {
     cache.writeQuery({
       query: GET_SNAPS,
       data: {
-        snaps: [createSnap, ...snaps]
-      }
-    })
+        snaps: [createSnap, ...snaps],
+      },
+    });
     console.log(snaps);
   };
 
@@ -73,7 +73,20 @@ class Home extends Component {
             mutation={ADD_SNAP}
             variables={{ ...this.state }}
             // refetchQueries={[{ query: GET_SNAPS }]}
-            update={ this.updateCache }
+            update={this.updateCache}
+            optimisticResponse={{
+              __typename: "Mutation",
+              createSnap: {
+                __typename: "Snap",
+                id: Math.round(Math.random() * -200000),
+                text: this.state.text,
+                createdAt: new Date(),
+                user: {
+                  __typename: "User",
+                  ...session.activeUser,
+                },
+              },
+            }}
           >
             {(addSnap, { loading, error }) => (
               <form
@@ -110,7 +123,7 @@ class Home extends Component {
                 <div>
                   <ul className="snaps">
                     {data.snaps.map((snap) => (
-                      <li key={snap.id}>
+                      <li key={snap.id} className={snap.id < 0 ? 'optimistic' : ''}>
                         <div className="title">
                           <span className="username">
                             @{snap.user.username}{" "}
