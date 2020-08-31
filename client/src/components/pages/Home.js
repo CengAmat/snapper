@@ -137,8 +137,8 @@ class Home extends Component {
                           {snap.text}
                         </div>
                         <div className="date">
-                          <span>
-                            <TimeAgo date={snap.createdAt} />
+                          <span>                     
+                            {snap.id < 0 ? "sending..." : <TimeAgo date={snap.createdAt} />}
                           </span>
                         </div>
                       </li>
