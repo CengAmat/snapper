@@ -1,12 +1,12 @@
 const { withFilter } = require('apollo-server-express');
 module.exports = {
-  snapAdded: {
+  snap: {
     subscribe: withFilter(
       (parent, args, { pubsub }) => {
         return pubsub.asyncIterator("snap added");
       },
       (payload, variables) => {
-        return variables.userId ? String(payload.snapAdded.user_id) === variables.userId: true ;
+        return variables.userId ? String(payload.snap.user_id) === variables.userId: true ;
       }
     ),
   },
