@@ -1,11 +1,14 @@
 // query resolvers
-const Query = require('./query/Query');
-const Snap = require('./query/Snap');
-const User = require('./query/User');
+const Query = require('./querys/Query');
+const Snap = require('./querys/Snap');
+const User = require('./querys/User');
 
 
 // mutation resolvers
-const Mutation = require('./mutation/index');
+const Mutation = require('./mutations/index');
+
+// subscription resolvers
+const Subscription = require('./subscriptions/index');
 
 
 module.exports = {
@@ -13,20 +16,5 @@ module.exports = {
     Snap,
     User,
     Mutation,
-    Subscription: {
-        sayi: {
-            subscribe: (parent, args, { pubsub }) => {
-                let sayi = 5;
-
-                setInterval(() => {
-                    sayi += 1;
-                    pubsub.publish('sayi', {
-                        sayi
-                    });
-                }, 3000);
-
-                return pubsub.asyncIterator('sayi');
-            }
-        }
-    }
+    Subscription
 }
