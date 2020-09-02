@@ -25,6 +25,7 @@ const server = new ApolloServer({
         activeUser: req ? req.activeUser : null
     }),
     introspection: true,
+    playground: true,
 });
 
 mongoose
