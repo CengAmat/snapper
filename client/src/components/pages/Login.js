@@ -5,7 +5,7 @@ import { Mutation } from "react-apollo";
 
 import { SIGNIN_USER } from "./../../queries";
 
-import Error from "./../pages/Error";
+import Error from "../Error";
 
 const initialState = {
   username: "",
