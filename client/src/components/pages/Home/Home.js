@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import NewSnapForm from './NewSnapForm';
 import SnapList from './SnapList';
+import JoinedUs from './JoinedUs';
 
 class Home extends Component {
   render() {
@@ -13,6 +14,7 @@ class Home extends Component {
           </p>
         </div>
         <NewSnapForm session={ this.props.session }/>
+        <JoinedUs />
         <SnapList />
         
       </div>
