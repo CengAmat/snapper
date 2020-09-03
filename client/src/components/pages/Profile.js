@@ -2,6 +2,7 @@ import React from 'react';
 import Moment from 'react-moment';
 
 import auth from '../auth';
+import Snaps from './Snaps';
 
 const Profile = ({ session: { activeUser } }) => (
     <div>
@@ -14,6 +15,7 @@ const Profile = ({ session: { activeUser } }) => (
         <strong>
             @{activeUser.username}
         </strong>
+        <Snaps />
     </div>
 );
 

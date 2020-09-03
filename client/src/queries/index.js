@@ -25,8 +25,13 @@ export const GET_ACTIVE_USER = gql`
       username
       createdAt
       snaps {
+        id
         text
         createdAt
+        user {
+          id
+          username
+        }
       }
     }
   }
@@ -78,7 +83,7 @@ export const SNAP_CREATED = gql`
       id
       text
       createdAt
-      user{
+      user {
         id
         username
       }
